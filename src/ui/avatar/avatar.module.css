@@ -1,0 +1,21 @@
+.root {
+  flex-shrink: 0;
+  object-fit: cover;
+  overflow: hidden;
+  background-color: var(--color-neutral-50);
+  border-radius: 50%;
+}
+
+.s24 {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  min-height: 24px;
+}
+
+.s32 {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  min-height: 32px;
+}

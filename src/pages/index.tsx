@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import FrameGraph from "@client/graph";
-import { Layout } from "@ui";
+import React, { useState, useEffect } from 'react';
+import FrameGraph from '@client/graph';
+import { BasePage } from '@client/layout';
 
 const IndexPage = () => {
   const [data, setData] = useState(null);
@@ -8,15 +8,14 @@ const IndexPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/data.json"); // Adjust this URL
-        console.log("Response Status:", response.status);
+        const response = await fetch('/data.json');
         if (!response.ok) {
-          throw new Error("Network response was not OK");
+          throw new Error('Network response was not OK');
         }
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {
-        console.error("There was a problem with the fetch:", error);
+        console.error('There was a problem with the fetch:', error);
       }
     };
 
@@ -29,9 +28,9 @@ const IndexPage = () => {
 
   return (
     <main>
-      <Layout>
+      <BasePage>
         <FrameGraph data={data} />
-      </Layout>
+      </BasePage>
     </main>
   );
 };
