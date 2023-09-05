@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaClient } from '@prisma/client';
 
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export default NextAuth({
   secret: process.env.GOOGLE_CLIENT_SECRET ?? '',
@@ -12,28 +12,40 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
     }),
   ],
-  // callbacks: {
-  //   async signIn({ user }) {
-  //     if (!user.email) {
-  //       return false;
-  //     }
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.accessToken = token.accessToken;
+      return session;
+    },
+    async signIn({ user }) {
+      if (!user.email) return false;
+      let existingUser;
+      try {
+        existingUser = await prisma.user.findUnique({
+          where: { email: user.email },
+        });
+      } catch (error) {
+        console.error('Prisma error:', error);
+      }
 
-  //     const existingUser = await prisma.user.findUnique({
-  //       where: { email: user.email },
-  //     });
+      if (!existingUser) {
+        await prisma.user.create({
+          data: {
+            name: user.name,
+            email: user.email,
+            avatar: user.image,
+            googleId: user.id,
+          },
+        });
+      }
 
-  //     if (!existingUser) {
-  //       await prisma.user.create({
-  //         data: {
-  //           name: user.name,
-  //           email: user.email,
-  //           avatar: user.image,
-  //           googleId: user.id,
-  //         },
-  //       });
-  //     }
-
-  //     return true;
-  //   },
-  // },
+      return true;
+    },
+  },
 });

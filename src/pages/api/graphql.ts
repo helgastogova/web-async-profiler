@@ -2,13 +2,11 @@ import { ApolloServer } from 'apollo-server-micro';
 import { typeDefs } from '@server/graphql/schema';
 import { resolvers } from '@server/graphql/resolvers';
 
-import { addMocksToSchema } from '@graphql-tools/mock';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
-const schemaWithMocks = addMocksToSchema({ schema });
 
-const apolloServer = new ApolloServer({ schema: schemaWithMocks });
+const apolloServer = new ApolloServer({ schema });
 
 let isApolloServerStarted = false;
 

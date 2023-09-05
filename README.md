@@ -13,3 +13,5 @@ You can run the following commands to interact with the project:
 ```bash
   npm run build
 ```
+
+npx prisma migrate dev --preview-feature

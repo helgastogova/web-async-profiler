@@ -5,19 +5,15 @@ import { Avatar } from '@ui';
 import s from './status.module.css';
 
 export const AuthStatus: React.FC = () => {
-  const {
-    session,
-    session: { user },
-    loading,
-  } = useAuth();
+  const { session, loading } = useAuth();
 
   if (loading) return null;
 
-  if (session) {
+  if (session?.user) {
     return (
       <div className={s.root}>
-        <p>Hey, {user?.name}!</p>
-        <Avatar src={user?.image} />
+        <p>Hey, {session.user?.name}!</p>
+        <Avatar src={session.user?.image} />
         <SignInButton />
       </div>
     );
