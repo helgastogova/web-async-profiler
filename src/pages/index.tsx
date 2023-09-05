@@ -27,11 +27,9 @@ const IndexPage = () => {
   }
 
   return (
-    <main>
-      <BasePage>
-        <FrameGraph data={data} />
-      </BasePage>
-    </main>
+    <BasePage>
+      <FrameGraph data={data} />
+    </BasePage>
   );
 };
 

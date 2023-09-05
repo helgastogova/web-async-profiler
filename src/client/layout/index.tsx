@@ -7,9 +7,11 @@ type BasePageProps = {
 
 export const BasePage = ({ children }: BasePageProps) => {
   return (
-    <div>
-      <Header />
-      <Layout>{children}</Layout>
-    </div>
+    <main>
+      <div>
+        <Header />
+        <Layout>{children}</Layout>
+      </div>
+    </main>
   );
 };

@@ -15,6 +15,7 @@ model User {
     googleId   String @unique 
     role       String @default("USER")
     reports    Report[]
+    token      String?
 }
 
 enum Role {
@@ -26,7 +27,6 @@ model Report {
     id          String @id @default(uuid())
     title       String
     filePath    String
-    description String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     author      User @relation(fields: [authorId], references: [id])

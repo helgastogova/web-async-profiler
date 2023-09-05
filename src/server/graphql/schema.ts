@@ -6,6 +6,8 @@ export const typeDefs = gql`
     name: String!
     email: String!
     avatar: String!
+    googleId: String!
+    token: String
   }
 
   type Mutation {
@@ -14,6 +16,7 @@ export const typeDefs = gql`
       email: String!
       avatar: String!
       googleId: String!
+      token: String
     ): User!
   }
 
