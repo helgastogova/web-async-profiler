@@ -27,8 +27,8 @@ export const UploadReport: React.FC = () => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
-          maxContentLength: Infinity,
-          maxBodyLength: Infinity,
+          maxContentLength: 15 * 1024 * 1024, // 15 MB
+          maxBodyLength: 15 * 1024 * 1024, // 15 MB
         },
       );
 
