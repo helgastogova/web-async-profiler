@@ -13,4 +13,10 @@ model User {
     name       String?
     avatar     String? 
     googleId   String @unique 
+    role       String @default("USER")
+}
+
+enum Role {
+    USER
+    ADMIN
 }
