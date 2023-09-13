@@ -28,6 +28,7 @@ export type MutationCreateUserArgs = {
   email: Scalars['String']['input'];
   googleId: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  token?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
@@ -39,23 +40,26 @@ export type User = {
   __typename?: 'User';
   avatar: Scalars['String']['output'];
   email: Scalars['String']['output'];
+  googleId: Scalars['String']['output'];
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', email: string, id: string, name: string, avatar: string }> };
+export type GetUsersQuery = { __typename?: 'Query', getUsers: Array<{ __typename?: 'User', id: string, name: string, email: string, avatar: string, token?: string | null }> };
 
 
 export const GetUsersDocument = gql`
     query GetUsers {
   getUsers {
-    email
     id
     name
+    email
     avatar
+    token
   }
 }
     `;

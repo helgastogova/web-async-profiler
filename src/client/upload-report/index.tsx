@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '@client/hooks/use-auth';
+import { FileInput, Button, Layout, Loader } from '@ui';
+
+import s from './upload-report.module.css';
 
 export const UploadReport: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { session, loading: userLoading } = useAuth();
 
+  if (userLoading) return <Loader />;
+  if (!session) return <div>Unauthorized</div>;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!file) {
       console.error('No file selected');
       return;
@@ -21,49 +28,52 @@ export const UploadReport: React.FC = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/reports',
+        'http://localhost:3000/api/upload-reports',
         formData,
         {
+          user: session?.user,
           headers: {
-            Authorization: session?.user ?? undefined,
+            'Content-Type': 'multipart/form-data',
           },
-          maxContentLength: 15 * 1024 * 1024, // 15 MB
-          maxBodyLength: 15 * 1024 * 1024, // 15 MB
         },
       );
 
       console.log('Report uploaded:', response.data);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(`Error Message: ${error.message}`);
+        console.error(`Status Code: ${error.response?.status}`);
+        console.error(`Data: ${JSON.stringify(error.response?.data)}`);
+        console.error(`Config: ${JSON.stringify(error.config)}`);
+      } else {
+        console.error('An unexpected error occurred:', error);
+      }
       console.error('Error uploading report:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      const fileSizeInMb = files[0].size / (1024 * 1024);
+  const handleFileChange = (file: File | null) => {
+    if (file) {
+      const fileSizeInMb = file.size / (1024 * 1024 * 15);
       if (fileSizeInMb > 15) {
         console.error('File size exceeds 15 MB.');
         return;
       }
-      setFile(files[0]);
+      setFile(file);
     }
   };
 
   return (
-    <div>
-      <h1>Upload Report</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="file">Upload File</label>
-          <input type="file" id="file" onChange={handleFileChange} />
-        </div>
-        <button type="submit" disabled={loading}>
+    <>
+      <Layout.Title>Upload Report</Layout.Title>
+      <form onSubmit={handleSubmit} className={s.form}>
+        <FileInput label="Choose a file" onFileSelect={handleFileChange} />
+        <Button type="submit" disabled={loading || !file}>
           {loading ? 'Uploading...' : 'Upload'}
-        </button>
+        </Button>
       </form>
-    </div>
+    </>
   );
 };

@@ -13,17 +13,17 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account }: NextAuth.JWT) {
       if (account) {
         token.accessToken = account.access_token;
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: NextAuth.Session) {
       session.accessToken = token.accessToken;
       return session;
     },
-    async signIn({ user }) {
+    async signIn({ user }: NextAuth.SignInEvent) {
       if (!user.email) return false;
       let existingUser;
       try {

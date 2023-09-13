@@ -5,21 +5,10 @@ import { Button } from '@ui';
 const SignInButton: React.FC = () => {
   const { session, loading, handleSignIn, handleSignOut } = useAuth();
 
-  return (
-    <>
-      {loading ? (
-        <Button disabled>Loading...</Button>
-      ) : (
-        <>
-          {session ? (
-            <Button onClick={handleSignOut}>Logout</Button>
-          ) : (
-            <Button onClick={handleSignIn}>Login</Button>
-          )}
-        </>
-      )}
-    </>
-  );
+  if (loading) return <Button disabled>Loading...</Button>;
+  if (session) return <Button onClick={handleSignOut}>Logout</Button>;
+
+  return <Button onClick={handleSignIn}>Login</Button>;
 };
 
 export default SignInButton;

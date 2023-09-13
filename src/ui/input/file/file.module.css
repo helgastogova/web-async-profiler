@@ -1,0 +1,12 @@
+.label {
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #eee;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.file {
+  display: none;
+}

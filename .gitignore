@@ -11,3 +11,5 @@ npm-debug.log*
 next-env.d.ts
 .env
 .env.local
+public
+uploads

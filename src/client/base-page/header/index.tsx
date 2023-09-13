@@ -1,17 +1,19 @@
+import React from 'react';
 import s from './header.module.css';
 import { AuthStatus } from '@client/auth/status';
 import { Menu } from './components/menu';
 import { Link } from '@ui';
 
-type HeaderProps = {
+interface HeaderProps {
   children?: React.ReactNode;
-};
+}
 
-export const Header = ({ children }: HeaderProps) => {
+export const Header: React.FC<HeaderProps> = ({ children }) => {
   return (
     <header className={s.header}>
-      <div className={s.menu}>
-        <Link href="/">Web async profiler</Link>
+      <div className={s.menuWrapper}>
+        <Link to="/">Web async profiler</Link>
+        {/* TODO: create a logo */}
         <Menu />
       </div>
       <AuthStatus />

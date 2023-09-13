@@ -20,3 +20,10 @@
     border: 1px solid var(--colors-primary7);
   }
 }
+
+.disabled {
+  cursor: not-allowed;
+  background: var(--colors-primary2);
+  border: 1px solid var(--colors-primary5);
+  color: var(--colors-primary5);
+}

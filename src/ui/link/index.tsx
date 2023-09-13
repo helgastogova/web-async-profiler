@@ -2,6 +2,8 @@ import cx from 'classnames';
 import React from 'react';
 import Link from 'next/link';
 
+import s from './link.module.css';
+
 interface LinkProps {
   to: string;
   children?: string;
@@ -11,7 +13,7 @@ interface LinkProps {
 }
 
 const LinkComponent: React.FC<LinkProps> = ({
-  href,
+  to,
   children,
   target = '_self',
   underlined = false,
@@ -22,7 +24,7 @@ const LinkComponent: React.FC<LinkProps> = ({
   }
   return (
     <Link
-      href={href}
+      href={to}
       target={target}
       className={cx(className, underlined && s.underlined)}
     >

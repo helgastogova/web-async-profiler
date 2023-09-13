@@ -1,8 +1,9 @@
 query GetUsers {
   getUsers {
-    email
     id
     name
+    email
     avatar
+    token
   }
 }

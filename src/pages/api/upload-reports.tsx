@@ -23,10 +23,14 @@ export const config = {
 
 export default async function handle(
   req: NextApiRequest,
+
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    const user = req.headers['authorization'] as string;
+    const user = req.user ?? {
+      id: 1,
+      name: 'test',
+    };
 
     if (!user) {
       console.error('Unauthorized');
@@ -35,19 +39,18 @@ export default async function handle(
     }
 
     upload(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        return res.status(500).json(err);
-      } else if (err) {
-        return res.status(500).json(err);
-      }
+      if (err instanceof multer.MulterError) return res.status(500).json(err);
+      if (err) return res.status(500).json(err);
 
       const filePath = req.file.path;
 
       const report = await prisma.report.create({
         data: {
-          title: req.body.title ?? `untitled-${new Date().toLocaleString()}`,
+          title:
+            req.body.title ??
+            `untitled-${user.name}-${new Date().toLocaleString()}`,
           filePath: filePath,
-          authorId: user.id,
+          userId: user.id,
         },
       });
 

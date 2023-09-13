@@ -1,6 +1,6 @@
 import { useAuth } from '@client/hooks/use-auth';
 import SignInButton from '../sign-in-button';
-import { Avatar } from '@ui';
+import { Avatar, Text } from '@ui';
 
 import s from './status.module.css';
 
@@ -9,15 +9,14 @@ export const AuthStatus: React.FC = () => {
 
   if (loading) return null;
 
-  if (session?.user) {
-    return (
-      <div className={s.root}>
-        <p>Hey, {session.user?.name}!</p>
-        <Avatar src={session.user?.image} />
-        <SignInButton />
-      </div>
-    );
-  }
+  if (!session?.user) return <SignInButton />;
 
-  return <SignInButton />;
+  const { name, image } = session.user;
+  return (
+    <div className={s.root}>
+      <Text variant="body/base">Hey, {name}!</Text>
+      <Avatar src={image} />
+      <SignInButton />
+    </div>
+  );
 };

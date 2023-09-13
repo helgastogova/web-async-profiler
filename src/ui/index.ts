@@ -5,3 +5,5 @@ export { default as Table } from './table';
 export { default as Button } from './button';
 export { default as Avatar } from './avatar';
 export { default as Link } from './link';
+export { default as Loader } from './loader';
+export { default as FileInput } from './input/file';

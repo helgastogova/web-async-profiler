@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import FrameGraph from '@client/graph';
-import { BasePage } from '@client/layout';
+import { TableReport } from '@client/report/table';
+import { BasePage } from '@client/base-page';
+import { Loader } from '@ui';
 
 const IndexPage = () => {
   const [data, setData] = useState(null);
 
+  // TODO: remove fetching data from here, it is only for dev purposes
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,13 +24,11 @@ const IndexPage = () => {
     fetchData();
   }, []);
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+  if (!data) return <Loader />;
 
   return (
     <BasePage>
-      <FrameGraph data={data} />
+      <TableReport data={data} />
     </BasePage>
   );
 };
