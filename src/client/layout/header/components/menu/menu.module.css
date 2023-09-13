@@ -1,0 +1,6 @@
+.root {
+}
+
+.active {
+  color: var(--colors-primary11);
+}

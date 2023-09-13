@@ -8,8 +8,18 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
-  server.use(express.json({ limit: '15mb' }));
-  server.use(express.urlencoded({ limit: '15mb', extended: true }));
+  server.use((req, res, next) => {
+    console.log('Before json/urlencoded middleware');
+    next();
+  });
+
+  server.use(json({ limit: '15mb' }));
+  server.use(urlencoded({ limit: '15mb', extended: true }));
+
+  server.use((req, res, next) => {
+    console.log('After json/urlencoded middleware');
+    next();
+  });
 
   server.all('*', (req, res) => {
     return handle(req, res);

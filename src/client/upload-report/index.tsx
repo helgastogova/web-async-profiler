@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '@client/hooks/use-auth';
 
 export const UploadReport: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [token, setToken] = useState<string>('');
+  const { session, loading: userLoading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,8 +25,7 @@ export const UploadReport: React.FC = () => {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+            Authorization: session?.user ?? undefined,
           },
           maxContentLength: 15 * 1024 * 1024, // 15 MB
           maxBodyLength: 15 * 1024 * 1024, // 15 MB
@@ -43,6 +43,11 @@ export const UploadReport: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
+      const fileSizeInMb = files[0].size / (1024 * 1024);
+      if (fileSizeInMb > 15) {
+        console.error('File size exceeds 15 MB.');
+        return;
+      }
       setFile(files[0]);
     }
   };
