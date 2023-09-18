@@ -7,7 +7,7 @@ export const useData = () => {
   const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
-    fetch('http://localhost:5001/')
+    fetch('http://localhost:5001/data')
       .then((response) => response.json())
       .then((data) => {
         setData(data);
