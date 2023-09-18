@@ -20,6 +20,7 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
 
   useEffect(() => {
     if (data) setGraphData([data]);
+    console.log({ ...graphData });
   }, [data]);
 
   const handleToggle = (nodeName: string) => {

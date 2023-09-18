@@ -1,8 +1,9 @@
 {
-  "name": "blink-test-task",
+  "name": "web-async-profiler",
   "version": "0.1.0",
-  "private": true,
+  "main": "main.js",
   "scripts": {
+    "dev-all-electron": "concurrently \"npm run dev\" \"npm run server\" \"npm run electron\"",
     "dev-all": "concurrently \"npm run dev\" \"npm run server\"",
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +12,9 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "typecheck": "tsc --noEmit --skipLibCheck",
-    "server": "node src/server/index.js"
+    "server": "node src/server/index.js",
+    "electron": "electron .",
+    "electron-build": "electron-builder"
   },
   "dependencies": {
     "@types/node": "20.6.2",
@@ -35,6 +38,8 @@
   },
   "devDependencies": {
     "@types/uuid": "^9.0.4",
-    "@typescript-eslint/eslint-plugin": "^6.7.0"
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "electron": "^26.2.1",
+    "electron-builder": "^24.6.4"
   }
 }
