@@ -19,8 +19,7 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
   const [toggledNodes, setToggledNodes] = useState<ToggleState>({});
 
   useEffect(() => {
-    if (data) setGraphData([data]);
-    console.log({ ...graphData });
+    if (data) setGraphData(data[0]?.ch);
   }, [data]);
 
   const handleToggle = (nodeName: string) => {
@@ -32,6 +31,8 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
+
+  if (!graphData) return null;
 
   const renderRow = (node: DataType, level = 0) => {
     const { name, type, self, total, ch } = node;
