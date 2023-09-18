@@ -5,6 +5,10 @@
 
 .row {
   display: table-row;
+
+  &:hover {
+    background-color: var(--colors-gray2);
+  }
 }
 
 .row:not(:last-child) {

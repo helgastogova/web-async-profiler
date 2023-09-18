@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from '@ui';
+import { Table, Loader } from '@ui';
 import { useData } from '@client/report/useData';
 import { languages } from './constants';
+
+import s from './table.module.css';
 
 type DataType = {
   name: string;
@@ -29,7 +31,7 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error: {error}</p>;
 
   if (!graphData) return null;
@@ -42,8 +44,18 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
       <>
         <Table.Row key={name}>
           <Table.Cell>
-            {ch && <button onClick={() => handleToggle(name)}>{isToggled ? '–' : '+'}</button>}
-            {name}
+            {ch ? (
+              <button
+                onClick={() => handleToggle(name)}
+                className={s.toggler}
+                style={{ paddingLeft: `${level * 10}px` }}
+              >
+                <span className={s.green}>{isToggled ? '–' : '+'} </span>
+                {name}
+              </button>
+            ) : (
+              <div style={{ paddingLeft: `${level * 10}px` }} />
+            )}
           </Table.Cell>
           <Table.Cell align="center">{languages[type]}</Table.Cell>
           <Table.Cell align="center">{self}</Table.Cell>
