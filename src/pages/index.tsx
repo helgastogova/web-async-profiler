@@ -1,3 +1,5 @@
+import { TableReport } from '@client/report/table';
+
 export default function Home() {
-  return '1';
+  return <TableReport />;
 }

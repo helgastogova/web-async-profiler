@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from '@ui';
+import { useData } from '@client/report/useData';
 import { languages } from './constants';
 
 type DataType = {
@@ -12,7 +13,8 @@ type DataType = {
 
 type ToggleState = { [key: string]: boolean };
 
-export const TableReport: React.FC<{ data: DataType }> = ({ data }) => {
+export const TableReport: React.FC<{ data: DataType }> = () => {
+  const { data, loading, error } = useData();
   const [graphData, setGraphData] = useState<DataType[]>([]);
   const [toggledNodes, setToggledNodes] = useState<ToggleState>({});
 
@@ -26,6 +28,9 @@ export const TableReport: React.FC<{ data: DataType }> = ({ data }) => {
       [nodeName]: !toggledNodes[nodeName],
     });
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   const renderRow = (node: DataType, level = 0) => {
     const { name, type, self, total, ch } = node;
