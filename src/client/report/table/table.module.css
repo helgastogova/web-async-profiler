@@ -6,3 +6,12 @@
 .toggler {
   text-align: left;
 }
+
+.loader {
+  margin-top: 40px;
+}
+
+.name {
+  font-size: 13px;
+  margin-left: 4px;
+}

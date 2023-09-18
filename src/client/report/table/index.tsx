@@ -24,14 +24,27 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
     if (data) setGraphData(data[0]?.ch);
   }, [data]);
 
-  const handleToggle = (nodeName: string) => {
-    setToggledNodes({
-      ...toggledNodes,
-      [nodeName]: !toggledNodes[nodeName],
-    });
+  console.log(graphData);
+
+  const handleToggle = (node: DataType) => {
+    const newToggledNodes: ToggleState = { ...toggledNodes };
+
+    const toggleRecursively = (currentNode: DataType) => {
+      const { name, ch } = currentNode;
+
+      if (ch?.length === 1) {
+        newToggledNodes[name] = true;
+        toggleRecursively(ch[0]);
+      } else {
+        newToggledNodes[name] = !newToggledNodes[name];
+      }
+    };
+
+    toggleRecursively(node);
+    setToggledNodes(newToggledNodes);
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader className={s.loader} />;
   if (error) return <p>Error: {error}</p>;
 
   if (!graphData) return null;
@@ -46,7 +59,7 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
           <Table.Cell>
             {ch ? (
               <button
-                onClick={() => handleToggle(name)}
+                onClick={() => handleToggle(node)}
                 className={s.toggler}
                 style={{ paddingLeft: `${level * 10}px` }}
               >
@@ -54,7 +67,9 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
                 {name}
               </button>
             ) : (
-              <div style={{ paddingLeft: `${level * 10}px` }} />
+              <div className={s.name} style={{ paddingLeft: `${level * 10}px` }}>
+                {name}
+              </div>
             )}
           </Table.Cell>
           <Table.Cell align="center">{languages[type]}</Table.Cell>
