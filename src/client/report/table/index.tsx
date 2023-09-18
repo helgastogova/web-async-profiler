@@ -35,11 +35,7 @@ export const TableReport: React.FC<{ data: DataType }> = ({ data }) => {
       <>
         <Table.Row key={name}>
           <Table.Cell>
-            {ch && (
-              <button onClick={() => handleToggle(name)}>
-                {isToggled ? '–' : '+'}
-              </button>
-            )}
+            {ch && <button onClick={() => handleToggle(name)}>{isToggled ? '–' : '+'}</button>}
             {name}
           </Table.Cell>
           <Table.Cell align="center">{languages[type]}</Table.Cell>
@@ -47,11 +43,7 @@ export const TableReport: React.FC<{ data: DataType }> = ({ data }) => {
           <Table.Cell align="center">{total}</Table.Cell>
         </Table.Row>
         {isToggled &&
-          ch?.map((item, i) => (
-            <React.Fragment key={`${item.name}_${i}`}>
-              {renderRow(item, level + 1)}
-            </React.Fragment>
-          ))}
+          ch?.map((item, i) => <React.Fragment key={`${item.name}_${i}`}>{renderRow(item, level + 1)}</React.Fragment>)}
       </>
     );
   };
@@ -65,9 +57,7 @@ export const TableReport: React.FC<{ data: DataType }> = ({ data }) => {
         <Table.Cell align="center">Total</Table.Cell>
       </Table.Row>
       {graphData.map((item, i) => (
-        <React.Fragment key={`${item.name}_${i}`}>
-          {renderRow(item)}
-        </React.Fragment>
+        <React.Fragment key={`${item.name}_${i}`}>{renderRow(item)}</React.Fragment>
       ))}
     </Table>
   );

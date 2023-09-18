@@ -1,8 +1,0 @@
-schema: 'src/server/graphql/__generated__/schema.json'
-documents: '**/*.graphql'
-cacheDir: .cache
-plugins:
-  - typescript-operations
-  - typescript-react-apollo
-config:
-  enumsAsTypes: true
