@@ -2,16 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Table, Loader, Layout } from '@ui';
 import { useData } from '@client/report/useData';
 import { languages } from './constants';
+import { DataType } from '@client/report/types';
 
 import s from './table.module.css';
-
-type DataType = {
-  name: string;
-  type: number;
-  self: number;
-  total: number;
-  ch?: DataType[];
-};
 
 type ToggleState = { [key: string]: boolean };
 
