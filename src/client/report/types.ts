@@ -3,5 +3,5 @@ export type JsonDataType = {
   type: number;
   self: number;
   total: number;
-  ch: any[];
+  ch: JsonDataType[];
 };
