@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Loader } from '@ui';
+import { Table, Loader, Layout } from '@ui';
 import { useData } from '@client/report/useData';
 import { languages } from './constants';
 
@@ -83,16 +83,18 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
   };
 
   return (
-    <Table>
-      <Table.Row>
-        <Table.Cell>Name</Table.Cell>
-        <Table.Cell align="center">Type</Table.Cell>
-        <Table.Cell align="center">Self</Table.Cell>
-        <Table.Cell align="center">Total</Table.Cell>
-      </Table.Row>
-      {graphData.map((item, i) => (
-        <React.Fragment key={`${item.name}_${i}`}>{renderRow(item)}</React.Fragment>
-      ))}
-    </Table>
+    <Layout>
+      <Table>
+        <Table.Row>
+          <Table.Cell>Name</Table.Cell>
+          <Table.Cell align="center">Type</Table.Cell>
+          <Table.Cell align="center">Self</Table.Cell>
+          <Table.Cell align="center">Total</Table.Cell>
+        </Table.Row>
+        {graphData.map((item, i) => (
+          <React.Fragment key={`${item.name}_${i}`}>{renderRow(item)}</React.Fragment>
+        ))}
+      </Table>
+    </Layout>
   );
 };
