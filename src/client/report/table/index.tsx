@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Loader, Layout } from '@ui';
 import { useData } from '@client/report/useData';
-import { languages } from './constants';
+import { languages } from '../constants';
 import { DataType } from '@client/report/types';
 
 import s from './table.module.css';
@@ -65,7 +65,7 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
               </div>
             )}
           </Table.Cell>
-          <Table.Cell align="center">{languages[type]}</Table.Cell>
+          <Table.Cell align="center">{languages[type].name}</Table.Cell>
           <Table.Cell align="center">{self}</Table.Cell>
           <Table.Cell align="center">{total}</Table.Cell>
         </Table.Row>
