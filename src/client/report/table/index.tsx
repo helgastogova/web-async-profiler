@@ -1,50 +1,24 @@
-import React, { useEffect, useState } from 'react';
+// TableReport.tsx
+import React from 'react';
 import { Table, Loader, Layout } from '@ui';
 import { useData } from '@client/report/useData';
 import { languages } from '../constants';
 import { DataType } from '@client/report/types';
+import { useTableReport } from './useTableReport';
 
 import s from './table.module.css';
 
-type ToggleState = { [key: string]: boolean };
-
-export const TableReport: React.FC<{ data: DataType }> = () => {
+export const TableReport: React.FC = () => {
   const { data, loading, error } = useData();
-  const [graphData, setGraphData] = useState<DataType[]>([]);
-  const [toggledNodes, setToggledNodes] = useState<ToggleState>({});
-
-  useEffect(() => {
-    if (data) setGraphData(data[0]?.ch);
-  }, [data]);
-
-  console.log(graphData);
-
-  const handleToggle = (node: DataType) => {
-    const newToggledNodes: ToggleState = { ...toggledNodes };
-
-    const toggleRecursively = (currentNode: DataType) => {
-      const { name, ch } = currentNode;
-
-      if (ch?.length === 1) {
-        newToggledNodes[name] = true;
-        toggleRecursively(ch[0]);
-      } else {
-        newToggledNodes[name] = !newToggledNodes[name];
-      }
-    };
-
-    toggleRecursively(node);
-    setToggledNodes(newToggledNodes);
-  };
-
-  if (loading) return <Loader className={s.loader} />;
-  if (error) return <p>Error: {error}</p>;
-
-  if (!graphData) return null;
+  const { sortedGraphData, toggledNodes, handleSort, handleToggle, collapseAll, expandAll } = useTableReport(data);
 
   const renderRow = (node: DataType, level = 0) => {
     const { name, type, self, total, ch } = node;
     const isToggled = toggledNodes[name];
+
+    if (loading) return <Loader className={s.loader} />;
+    if (error) return <p>Error: {error}</p>;
+    if (!sortedGraphData) return null;
 
     return (
       <>
@@ -77,14 +51,24 @@ export const TableReport: React.FC<{ data: DataType }> = () => {
 
   return (
     <Layout>
+      <div className={s.controls}>
+        <button onClick={collapseAll}>Collapse All</button>
+        <button onClick={expandAll}>Expand All</button>
+      </div>
       <Table>
         <Table.Row>
-          <Table.Cell>Name</Table.Cell>
-          <Table.Cell align="center">Type</Table.Cell>
-          <Table.Cell align="center">Self</Table.Cell>
-          <Table.Cell align="center">Total</Table.Cell>
+          <Table.Cell onClick={() => handleSort('name')}>Name</Table.Cell>
+          <Table.Cell align="center" onClick={() => handleSort('type')}>
+            Type
+          </Table.Cell>
+          <Table.Cell align="center" onClick={() => handleSort('self')}>
+            Self
+          </Table.Cell>
+          <Table.Cell align="center" onClick={() => handleSort('total')}>
+            Total
+          </Table.Cell>
         </Table.Row>
-        {graphData.map((item, i) => (
+        {sortedGraphData.map((item, i) => (
           <React.Fragment key={`${item.name}_${i}`}>{renderRow(item)}</React.Fragment>
         ))}
       </Table>

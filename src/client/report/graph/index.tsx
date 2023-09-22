@@ -43,15 +43,13 @@ export const GraphReport: React.FC = () => {
     });
   }, [data]);
 
-  console.log(graphData);
-
   if (loading) return <Loader className={s.loader} />;
   if (error) return <p>Error: {error}</p>;
 
   if (!graphData) return null;
 
   return (
-    <canvas ref={canvasRef} width="1700" height="800" style={{ width: '100%' }}>
+    <canvas className={s.canvas} ref={canvasRef} width="1700" height="800" style={{ width: '100%' }}>
       Canvas not supported
     </canvas>
   );
