@@ -7,12 +7,16 @@ type SortColumn = 'name' | 'type' | 'self' | 'total';
 
 export const useTableReport = (data: DataType[]) => {
   const [graphData, setGraphData] = useState<DataType[]>([]);
+  const [total, setTotal] = useState<number>(0);
   const [toggledNodes, setToggledNodes] = useState<ToggleState>({});
   const [sortColumn, setSortColumn] = useState<SortColumn>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
   useEffect(() => {
-    if (data) setGraphData(data[0]?.ch);
+    if (data) {
+      setGraphData(data[0]?.ch);
+      setTotal(data[0]?.total);
+    }
   }, [data]);
 
   const handleSort = (column: SortColumn) => {
@@ -20,11 +24,11 @@ export const useTableReport = (data: DataType[]) => {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortColumn(column);
-      setSortDirection('asc');
+      setSortDirection('desc');
     }
   };
 
-  const sortedGraphData = graphData
+  const sortedData = graphData
     ? [...graphData].sort((a, b) => {
         return sortDirection === 'asc'
           ? a[sortColumn] > b[sortColumn]
@@ -73,7 +77,8 @@ export const useTableReport = (data: DataType[]) => {
   };
 
   return {
-    sortedGraphData,
+    sortedData,
+    total,
     toggledNodes,
     handleSort,
     handleToggle,

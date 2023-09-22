@@ -1,16 +1,24 @@
-// TableReport.tsx
 import React from 'react';
 import { Table, Loader, Layout } from '@ui';
 import { useData } from '@client/report/useData';
 import { languages } from '../constants';
 import { DataType } from '@client/report/types';
 import { useTableReport } from './useTableReport';
+import { Text, Button } from '@ui';
 
 import s from './table.module.css';
 
 export const TableReport: React.FC = () => {
   const { data, loading, error } = useData();
-  const { sortedGraphData, toggledNodes, handleSort, handleToggle, collapseAll, expandAll } = useTableReport(data);
+  const {
+    sortedData,
+    total: allTotal,
+    toggledNodes,
+    handleSort,
+    handleToggle,
+    collapseAll,
+    expandAll,
+  } = useTableReport(data);
 
   const renderRow = (node: DataType, level = 0) => {
     const { name, type, self, total, ch } = node;
@@ -18,7 +26,7 @@ export const TableReport: React.FC = () => {
 
     if (loading) return <Loader className={s.loader} />;
     if (error) return <p>Error: {error}</p>;
-    if (!sortedGraphData) return null;
+    if (!sortedData) return null;
 
     return (
       <>
@@ -39,9 +47,16 @@ export const TableReport: React.FC = () => {
               </div>
             )}
           </Table.Cell>
-          <Table.Cell align="center">{languages[type].name}</Table.Cell>
+          <Table.Cell align="center">
+            <div style={{ color: languages[type].color }}>{languages[type].name}</div>
+          </Table.Cell>
           <Table.Cell align="center">{self}</Table.Cell>
-          <Table.Cell align="center">{total}</Table.Cell>
+          <Table.Cell align="center">
+            <div className={s.stat}>
+              <div className={s.statTotal}>{total}</div>{' '}
+              <Text color="grey">{Math.round((total / allTotal) * 100)}%</Text>
+            </div>
+          </Table.Cell>
         </Table.Row>
         {isToggled &&
           ch?.map((item, i) => <React.Fragment key={`${item.name}_${i}`}>{renderRow(item, level + 1)}</React.Fragment>)}
@@ -52,8 +67,9 @@ export const TableReport: React.FC = () => {
   return (
     <Layout>
       <div className={s.controls}>
-        <button onClick={collapseAll}>Collapse All</button>
-        <button onClick={expandAll}>Expand All</button>
+        <div>total: {allTotal}</div>
+        <Button onClick={collapseAll}>Collapse All</Button>
+        <Button onClick={expandAll}>Expand All</Button>
       </div>
       <Table>
         <Table.Row>
@@ -68,7 +84,7 @@ export const TableReport: React.FC = () => {
             Total
           </Table.Cell>
         </Table.Row>
-        {sortedGraphData.map((item, i) => (
+        {sortedData.map((item, i) => (
           <React.Fragment key={`${item.name}_${i}`}>{renderRow(item)}</React.Fragment>
         ))}
       </Table>

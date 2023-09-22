@@ -15,3 +15,14 @@
   font-size: 13px;
   margin-left: 4px;
 }
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
