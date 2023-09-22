@@ -8,9 +8,13 @@ type SortColumn = 'name' | 'type' | 'self' | 'total';
 export const useTableReport = (data: DataType[]) => {
   const [graphData, setGraphData] = useState<DataType[]>([]);
   const [total, setTotal] = useState<number>(0);
+
   const [toggledNodes, setToggledNodes] = useState<ToggleState>({});
+
   const [sortColumn, setSortColumn] = useState<SortColumn>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+
+  const [filterTypes, setFilterTypes] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     if (data) {
@@ -18,6 +22,13 @@ export const useTableReport = (data: DataType[]) => {
       setTotal(data[0]?.total);
     }
   }, [data]);
+
+  const handleFilterTypeChange = (type: string, checked: boolean) => {
+    setFilterTypes({
+      ...filterTypes,
+      [type]: checked,
+    });
+  };
 
   const handleSort = (column: SortColumn) => {
     if (sortColumn === column) {
@@ -29,15 +40,17 @@ export const useTableReport = (data: DataType[]) => {
   };
 
   const sortedData = graphData
-    ? [...graphData].sort((a, b) => {
-        return sortDirection === 'asc'
-          ? a[sortColumn] > b[sortColumn]
+    ? [...graphData]
+        .filter((item) => (Object.keys(filterTypes).length === 0 ? true : filterTypes[item.type]))
+        .sort((a, b) => {
+          return sortDirection === 'asc'
+            ? a[sortColumn] > b[sortColumn]
+              ? 1
+              : -1
+            : a[sortColumn] < b[sortColumn]
             ? 1
-            : -1
-          : a[sortColumn] < b[sortColumn]
-          ? 1
-          : -1;
-      })
+            : -1;
+        })
     : [];
 
   const handleToggle = (node: DataType) => {
@@ -84,5 +97,7 @@ export const useTableReport = (data: DataType[]) => {
     handleToggle,
     collapseAll,
     expandAll,
+    filterTypes,
+    handleFilterTypeChange,
   };
 };

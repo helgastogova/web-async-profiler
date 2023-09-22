@@ -18,6 +18,8 @@ export const TableReport: React.FC = () => {
     handleToggle,
     collapseAll,
     expandAll,
+    filterTypes,
+    handleFilterTypeChange,
   } = useTableReport(data);
 
   const renderRow = (node: DataType, level = 0) => {
@@ -31,7 +33,7 @@ export const TableReport: React.FC = () => {
     return (
       <>
         <Table.Row key={name}>
-          <Table.Cell>
+          <Table.Cell className={s.nameCell}>
             {ch ? (
               <button
                 onClick={() => handleToggle(node)}
@@ -71,9 +73,23 @@ export const TableReport: React.FC = () => {
         <Button onClick={collapseAll}>Collapse All</Button>
         <Button onClick={expandAll}>Expand All</Button>
       </div>
+      <div>
+        {Object.keys(languages).map((key) => (
+          <label key={key}>
+            <input
+              type="checkbox"
+              checked={filterTypes?.[key] || false}
+              onChange={(e) => handleFilterTypeChange(key, e.target.checked)}
+            />
+            {languages[key].name}
+          </label>
+        ))}
+      </div>
       <Table>
         <Table.Row>
-          <Table.Cell onClick={() => handleSort('name')}>Name</Table.Cell>
+          <Table.Cell className={s.nameCell} onClick={() => handleSort('name')}>
+            Name
+          </Table.Cell>
           <Table.Cell align="center" onClick={() => handleSort('type')}>
             Type
           </Table.Cell>
