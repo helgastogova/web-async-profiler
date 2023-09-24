@@ -1,0 +1,25 @@
+.chart {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.item {
+  border: 1px solid var(--border-5);
+  padding: 20px;
+  box-sizing: border-box;
+  min-width: 300px;
+
+  &:hover {
+    background-color: var(--colors-gray2);
+  }
+}
+
+.row:not(:last-child) {
+  box-shadow: 0px -1px 0px 0px var(--border-5) inset;
+}
+
+.cell {
+  flex: 1;
+  padding: 8px 16px;
+}

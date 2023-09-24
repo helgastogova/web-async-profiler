@@ -5,3 +5,6 @@ export type JsonDataType = {
   total: number;
   ch: JsonDataType[];
 };
+
+export type SortDirection = 'asc' | 'desc';
+export type SortColumn = 'name' | 'type' | 'self' | 'total';

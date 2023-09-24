@@ -11,7 +11,7 @@ import s from './table.module.css';
 export const TableReport: React.FC = () => {
   const { data, loading, error } = useData();
   const {
-    sortedData,
+    filteredData,
     total: allTotal,
     toggledNodes,
     handleSort,
@@ -28,7 +28,7 @@ export const TableReport: React.FC = () => {
 
     if (loading) return <Loader className={s.loader} />;
     if (error) return <p>Error: {error}</p>;
-    if (!sortedData) return null;
+    if (!filteredData) return null;
 
     return (
       <>
@@ -100,7 +100,7 @@ export const TableReport: React.FC = () => {
             Total
           </Table.Cell>
         </Table.Row>
-        {sortedData.map((item, i) => (
+        {filteredData.map((item, i) => (
           <React.Fragment key={`${item.name}_${i}`}>{renderRow(item)}</React.Fragment>
         ))}
       </Table>

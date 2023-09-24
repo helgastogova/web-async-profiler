@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { DataType } from '@client/report/types';
+import { DataType, SortDirection, SortColumn } from '@client/report/types';
+import { sortData } from '@client/report/utils';
 
 type ToggleState = { [key: string]: boolean };
-type SortDirection = 'asc' | 'desc';
-type SortColumn = 'name' | 'type' | 'self' | 'total';
 
 export const useTableReport = (data: DataType[]) => {
   const [graphData, setGraphData] = useState<DataType[]>([]);
@@ -39,19 +38,9 @@ export const useTableReport = (data: DataType[]) => {
     }
   };
 
-  const sortedData = graphData
-    ? [...graphData]
-        .filter((item) => (Object.keys(filterTypes).length === 0 ? true : filterTypes[item.type]))
-        .sort((a, b) => {
-          return sortDirection === 'asc'
-            ? a[sortColumn] > b[sortColumn]
-              ? 1
-              : -1
-            : a[sortColumn] < b[sortColumn]
-            ? 1
-            : -1;
-        })
-    : [];
+  const filteredData = sortData(graphData, sortDirection, sortColumn).filter((item) =>
+    Object.keys(filterTypes).length === 0 ? true : filterTypes[item.type],
+  );
 
   const handleToggle = (node: DataType) => {
     const newToggledNodes: ToggleState = { ...toggledNodes };
@@ -90,7 +79,7 @@ export const useTableReport = (data: DataType[]) => {
   };
 
   return {
-    sortedData,
+    filteredData,
     total,
     toggledNodes,
     handleSort,
