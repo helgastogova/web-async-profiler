@@ -1,26 +1,20 @@
 import React from 'react';
+import cx from 'classnames';
 import { Table, Loader, Layout } from '@ui';
+import { ArrowIcon } from '@ui/icons';
 import { useData } from '@client/report/useData';
 import { languages } from '../constants';
 import { DataType } from '@client/report/types';
 import { useTableReport } from './useTableReport';
-import { Text, Button } from '@ui';
+import { Text } from '@ui';
+import { TableHeader } from './components/header';
+import { TableFilters } from './components/filters';
 
 import s from './table.module.css';
 
 export const TableReport: React.FC = () => {
   const { data, loading, error } = useData();
-  const {
-    filteredData,
-    total: allTotal,
-    toggledNodes,
-    handleSort,
-    handleToggle,
-    collapseAll,
-    expandAll,
-    filterTypes,
-    handleFilterTypeChange,
-  } = useTableReport(data);
+  const { filteredData, total: allTotal, toggledNodes, handleSort, handleToggle } = useTableReport(data);
 
   const renderRow = (node: DataType, level = 0) => {
     const { name, type, self, total, ch } = node;
@@ -40,13 +34,15 @@ export const TableReport: React.FC = () => {
                 className={s.toggler}
                 style={{ paddingLeft: `${level * 10}px` }}
               >
-                <span className={s.green}>{isToggled ? '–' : '+'} </span>
-                {name}
+                <span className={s.green}>
+                  <ArrowIcon className={cx(isToggled && s.toggledIcon)} />{' '}
+                </span>
+                <Text variant="body/base">{name}</Text>
               </button>
             ) : (
-              <div className={s.name} style={{ paddingLeft: `${level * 10}px` }}>
+              <Text variant="body/base" className={s.name} style={{ paddingLeft: `${level * 10}px` }}>
                 {name}
-              </div>
+              </Text>
             )}
           </Table.Cell>
           <Table.Cell align="center">
@@ -68,23 +64,8 @@ export const TableReport: React.FC = () => {
 
   return (
     <Layout>
-      <div className={s.controls}>
-        <div>total: {allTotal}</div>
-        <Button onClick={collapseAll}>Collapse All</Button>
-        <Button onClick={expandAll}>Expand All</Button>
-      </div>
-      <div>
-        {Object.keys(languages).map((key) => (
-          <label key={key}>
-            <input
-              type="checkbox"
-              checked={filterTypes?.[key] || false}
-              onChange={(e) => handleFilterTypeChange(key, e.target.checked)}
-            />
-            {languages[key].name}
-          </label>
-        ))}
-      </div>
+      <TableHeader total={allTotal} />
+      <TableFilters />
       <Table>
         <Table.Row>
           <Table.Cell className={s.nameCell} onClick={() => handleSort('name')}>

@@ -164,6 +164,8 @@
   --radii-4: 16px;
   --radii-5: 20px;
   --radii-round: 9999px;
+
+  --light-gray: #21232d0d;
 }
 
 html,

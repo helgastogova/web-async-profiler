@@ -22,13 +22,11 @@ export const ChartReport: React.FC = () => {
 
   if (!chartData) return null;
 
-  console.log(chartData);
-
   return (
     <Chart>
       {chartData?.ch?.map((item, i) => {
         const { total, name } = item;
-        const width = `${Math.round((total / chartData.total) * 10000) / 100}%`;
+        const width = `${Math.round((total / chartData.total) * 10000) / 100}`;
 
         return (
           <Chart.Item key={`${item.name}_${i}`} width={width}>

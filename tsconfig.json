@@ -24,9 +24,17 @@
       "@ui": ["src/ui/index.ts"],
       "@client/*": ["src/client/*"],
       "@server/*": ["src/server/*"],
-      "@ui/hooks": ["src/ui/hooks/index.ts"]
+      "@ui/hooks": ["src/ui/hooks/index.ts"],
+      "@ui/icons": ["src/ui/icons/index.ts"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/server/index.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/server/index.js",
+    "src/ui/icons/index.ts"
+  ],
   "exclude": ["node_modules"]
 }

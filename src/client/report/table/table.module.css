@@ -4,6 +4,9 @@
 }
 
 .toggler {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   text-align: left;
 }
 
@@ -21,12 +24,10 @@
   justify-content: space-between;
 }
 
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .nameCell {
   max-width: 400px;
+}
+
+.toggledIcon {
+  transform: rotate(90deg);
 }

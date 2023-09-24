@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.languages {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 16px;
+}

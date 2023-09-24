@@ -19,7 +19,7 @@ type ChartItemProps = {
 
 export const ChartItem: FC<ChartItemProps> = ({ className, width, children, ...rest }) => {
   return (
-    <div className={cx(s.item, className)} {...rest} style={{ width: width }}>
+    <div className={cx(s.item, className)} {...rest} style={{ width: width + 'vw', height: width + 'vh' }}>
       {children}
     </div>
   );
