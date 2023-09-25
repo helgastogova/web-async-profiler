@@ -30,7 +30,7 @@ export type JsonDataType = {
 
 # Development Phases
 * Design architecture and interface. [done]
-  [figma](https://www.figma.com/file/Y8draQN5SQLUjnOmfqP3E9/Tree?node-id=0%3A1&mode=dev)
+  [figma]([https://www.figma.com/file/Y8draQN5SQLUjnOmfqP3E9/Tree?node-id=0%3A1&mode=dev](https://www.figma.com/file/WrpkuVb1CfzmovJZ36RhLH/Web-Async-Profiler?type=design&node-id=0%3A1&mode=design&t=mVFZyI3xdmbn4e51-1))
 * Develop basic functionalities for dynamic data loading. [done]
 * Creating a Frame Fraph component.
 * Integrate with Async Profiler and process JSON reports.
