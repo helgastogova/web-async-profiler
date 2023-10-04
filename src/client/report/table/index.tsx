@@ -9,6 +9,7 @@ import { useTableReport } from './useTableReport';
 import { Text } from '@ui';
 import { TableHeader } from './components/header';
 import { TableFilters } from './components/filters';
+import SignInButton from '@client/auth/sing-in-button';
 
 import s from './table.module.css';
 
@@ -64,6 +65,7 @@ export const TableReport: React.FC = () => {
 
   return (
     <Layout>
+      <SignInButton />
       <TableHeader total={allTotal} />
       <TableFilters />
       <Table>
