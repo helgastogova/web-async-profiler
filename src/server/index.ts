@@ -2,9 +2,9 @@ import express, { Request, Response } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import next from 'next';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import cors from 'cors'; // Установите пакет, если ещё не
+import cors from 'cors';
 
-import { typeDefs } from './graphql/schema';
+import { typeDefs } from './graphql/shema';
 import { resolvers } from './graphql/resolvers';
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
