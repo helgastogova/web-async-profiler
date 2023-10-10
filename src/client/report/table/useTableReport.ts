@@ -14,7 +14,7 @@ export const useTableReport = (data: DataType[]) => {
   const [filterTypes, setFilterTypes] = useState<FilterState>({});
 
   useEffect(() => {
-    const mainData = data[0];
+    const mainData = data?.data[0];
     if (mainData) {
       setGraphData(mainData.ch ?? []);
       setTotal(mainData.total ?? 0);

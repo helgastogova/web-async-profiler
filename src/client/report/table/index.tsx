@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { Table, Loader, Layout } from '@ui';
+import { Table, Layout } from '@ui';
 import { ArrowIcon } from '@ui/icons';
 import { languages } from '../constants';
 import { DataType } from '@client/report/types';
@@ -18,8 +18,6 @@ export const TableReport: React.FC = ({ data }) => {
     const { name, type, self, total, ch } = node;
     const isToggled = toggledNodes[name];
 
-    if (loading) return <Loader className={s.loader} />;
-    if (error) return <p>Error: {error}</p>;
     if (!filteredData) return null;
 
     return (
