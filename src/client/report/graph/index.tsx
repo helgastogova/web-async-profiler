@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { drawFrame, transformGraphDataToFrames } from './utils';
 import { Loader } from '@ui';
-import { useData } from '@client/report/useData';
 import { DataType } from '@client/report/types';
 
 import s from './graph.module.css';
@@ -13,8 +12,7 @@ interface Frame {
   title: string;
 }
 
-export const GraphReport: React.FC = () => {
-  const { data, loading, error } = useData();
+export const GraphReport: React.FC = ({ data }) => {
   const [graphData, setGraphData] = useState<DataType[]>([]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);

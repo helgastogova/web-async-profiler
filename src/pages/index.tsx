@@ -6,15 +6,22 @@ import { Loader } from '@ui';
 const IndexPage = () => {
   const [data, setData] = useState(null);
 
-  // TODO: remove fetching data from here, it is only for dev purposes
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/data.json');
+        console.log('fetching data...');
+        const response = await fetch('data.json');
+        console.log('Status Code:', response.status);
+
         if (!response.ok) {
-          throw new Error('Network response was not OK');
+          throw new Error(`Network response was not OK, status: ${response.status}`);
         }
         const jsonData = await response.json();
+
+        if (!jsonData || typeof jsonData !== 'object') {
+          throw new Error('Invalid JSON data');
+        }
+
         setData(jsonData);
       } catch (error) {
         console.error('There was a problem with the fetch:', error);

@@ -2,19 +2,16 @@ import React from 'react';
 import cx from 'classnames';
 import { Table, Loader, Layout } from '@ui';
 import { ArrowIcon } from '@ui/icons';
-import { useData } from '@client/report/useData';
 import { languages } from '../constants';
 import { DataType } from '@client/report/types';
 import { useTableReport } from './useTableReport';
 import { Text } from '@ui';
 import { TableHeader } from './components/header';
 import { TableFilters } from './components/filters';
-import SignInButton from '@client/auth/sing-in-button';
 
 import s from './table.module.css';
 
-export const TableReport: React.FC = () => {
-  const { data, loading, error } = useData();
+export const TableReport: React.FC = ({ data }) => {
   const { filteredData, total: allTotal, toggledNodes, handleSort, handleToggle } = useTableReport(data);
 
   const renderRow = (node: DataType, level = 0) => {
@@ -65,9 +62,8 @@ export const TableReport: React.FC = () => {
 
   return (
     <Layout>
-      <SignInButton />
       <TableHeader total={allTotal} />
-      <TableFilters />
+      <TableFilters data={data} />
       <Table>
         <Table.Row>
           <Table.Cell className={s.nameCell} onClick={() => handleSort('name')}>

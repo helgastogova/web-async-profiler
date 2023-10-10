@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Loader, Chart } from '@ui';
-import { useData } from '@client/report/useData';
+import { Chart } from '@ui';
 import { DataType } from '@client/report/types';
 import { sortData } from '@client/report/utils';
 
-import s from './chart.module.css';
-
-export const ChartReport: React.FC = () => {
-  const { data, loading, error } = useData();
+export const ChartReport: React.FC = ({ data }) => {
   const [chartData, setChartData] = useState<DataType[]>([]);
 
   useEffect(() => {
@@ -16,9 +12,6 @@ export const ChartReport: React.FC = () => {
       setChartData({ ...data[0], ch: sordedData });
     }
   }, [data]);
-
-  if (loading) return <Loader className={s.loader} />;
-  if (error) return <p>Error: {error}</p>;
 
   if (!chartData) return null;
 

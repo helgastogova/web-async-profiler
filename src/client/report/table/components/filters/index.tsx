@@ -1,13 +1,11 @@
 import React from 'react';
-import { useData } from '@client/report/useData';
 import { languages } from '@client/report/constants';
 import { useTableReport } from '@client/report/table/useTableReport';
 import { Button } from '@ui';
 
 import s from './tableFilters.module.css';
 
-export const TableFilters: React.FC = () => {
-  const { data } = useData();
+export const TableFilters: React.FC = ({ data }) => {
   const { collapseAll, expandAll, filterTypes, handleFilterTypeChange } = useTableReport(data);
 
   return (

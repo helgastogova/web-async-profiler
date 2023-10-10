@@ -2,91 +2,77 @@ import { useEffect, useState } from 'react';
 import { DataType, SortDirection, SortColumn } from '@client/report/types';
 import { sortData } from '@client/report/utils';
 
-type ToggleState = { [key: string]: boolean };
+type ToggleState = Record<string, boolean>;
+type FilterState = Record<string, boolean>;
 
 export const useTableReport = (data: DataType[]) => {
   const [graphData, setGraphData] = useState<DataType[]>([]);
   const [total, setTotal] = useState<number>(0);
-
   const [toggledNodes, setToggledNodes] = useState<ToggleState>({});
-
   const [sortColumn, setSortColumn] = useState<SortColumn>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-
-  const [filterTypes, setFilterTypes] = useState<{ [key: string]: boolean }>({});
+  const [filterTypes, setFilterTypes] = useState<FilterState>({});
 
   useEffect(() => {
-    if (data) {
-      setGraphData(data[0]?.ch);
-      setTotal(data[0]?.total);
+    const mainData = data[0];
+    if (mainData) {
+      setGraphData(mainData.ch ?? []);
+      setTotal(mainData.total ?? 0);
     }
   }, [data]);
 
-  const handleFilterTypeChange = (type: string, checked: boolean) => {
-    setFilterTypes({
-      ...filterTypes,
-      [type]: checked,
-    });
+  const updateFilterTypes = (type: string, checked: boolean) => {
+    setFilterTypes((prevState) => ({ ...prevState, [type]: checked }));
   };
 
-  const handleSort = (column: SortColumn) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortColumn(column);
-      setSortDirection('desc');
-    }
+  const toggleSort = (column: SortColumn) => {
+    const newDirection = sortColumn === column && sortDirection === 'asc' ? 'desc' : 'asc';
+    setSortColumn(column);
+    setSortDirection(newDirection);
   };
 
-  const filteredData = sortData(graphData, sortDirection, sortColumn).filter((item) =>
-    Object.keys(filterTypes).length === 0 ? true : filterTypes[item.type],
-  );
+  const filteredData = sortData(graphData, sortDirection, sortColumn).filter((item) => !filterTypes[item.type] ?? true);
 
-  const handleToggle = (node: DataType) => {
-    const newToggledNodes: ToggleState = { ...toggledNodes };
-
-    const toggleRecursively = (currentNode: DataType) => {
-      const { name, ch } = currentNode;
-
-      if (ch?.length === 1) {
-        newToggledNodes[name] = true;
-        toggleRecursively(ch[0]);
-      } else {
-        newToggledNodes[name] = !newToggledNodes[name];
+  const toggleNode = (node: DataType) => {
+    const updateToggledNodes = (currentNode: DataType, state: ToggleState) => {
+      state[currentNode.name] = !state[currentNode.name];
+      if (currentNode.ch?.length === 1) {
+        updateToggledNodes(currentNode.ch[0], state);
       }
     };
 
-    toggleRecursively(node);
+    const newToggledNodes = { ...toggledNodes };
+    updateToggledNodes(node, newToggledNodes);
     setToggledNodes(newToggledNodes);
   };
 
-  const collapseAll = () => {
-    console.log('collapseAll');
-    const newToggledNodes: ToggleState = {};
-    Object.keys(toggledNodes).forEach((key) => {
-      newToggledNodes[key] = false;
+  const collapseAll = () =>
+    setToggledNodes((prevState) => {
+      const newState = { ...prevState };
+      for (const key in newState) {
+        newState[key] = false;
+      }
+      return newState;
     });
-    setToggledNodes({ ...newToggledNodes });
-  };
 
-  const expandAll = () => {
-    console.log('expandAll');
-    const newToggledNodes: ToggleState = {};
-    Object.keys(toggledNodes).forEach((key) => {
-      newToggledNodes[key] = true;
+  const expandAll = () =>
+    setToggledNodes((prevState) => {
+      const newState = { ...prevState };
+      for (const key in newState) {
+        newState[key] = true;
+      }
+      return newState;
     });
-    setToggledNodes({ ...newToggledNodes });
-  };
 
   return {
     filteredData,
     total,
     toggledNodes,
-    handleSort,
-    handleToggle,
+    handleSort: toggleSort,
+    handleToggle: toggleNode,
     collapseAll,
     expandAll,
     filterTypes,
-    handleFilterTypeChange,
+    handleFilterTypeChange: updateFilterTypes,
   };
 };
