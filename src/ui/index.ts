@@ -8,3 +8,4 @@ export { default as Avatar } from './avatar';
 export { default as Link } from './link';
 export { default as Loader } from './loader';
 export { default as FileInput } from './input/file';
+export { default as BottomSheet } from './bottom-sheet';
