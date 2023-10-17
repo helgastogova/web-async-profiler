@@ -1,0 +1,33 @@
+.green {
+  color: green;
+  font-size: 20px;
+}
+
+.toggler {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+
+.loader {
+  margin-top: 40px;
+}
+
+.name {
+  font-size: 13px;
+  margin-left: 4px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nameCell {
+  max-width: 400px;
+}
+
+.toggledIcon {
+  transform: rotate(90deg);
+}
