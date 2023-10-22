@@ -1,7 +1,0 @@
-.root {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 10px 8px;
-  background-color: var(--light-gray);
-}
